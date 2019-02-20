@@ -7,8 +7,9 @@
   [nodes]="hierarchialGraph.nodes"
   [legend]="true"
   [curve]="curve"
-  [draggingEnabled]="false"
-  [autoZoom]="true"  >
+  [draggingEnabled]="true"
+  [autoZoom]="true" 
+  [scheme]="colorScheme" >
 
   <ng-template #defsTemplate>
     <svg:marker id="arrow" viewBox="0 -5 10 10" refX="8" refY="0" markerWidth="4" markerHeight="6" orient="auto">
