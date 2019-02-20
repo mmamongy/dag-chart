@@ -23,6 +23,26 @@ export class NgxGraphComponent implements OnInit {
   hierarchialGraph = {nodes: [], links: []}
   curve = shape.curveBundle.beta(1);
   // curve = shape.curveLinear;
+  showLegend = true;
+  orientation = 'LR'; // LR, RL, TB, BT
+  curveType = 'Linear';
+  colorSchemes: any;
+  colorScheme: any;
+  schemeType = 'ordinal';
+  selectedColorScheme: string;
+   // line interpolation
+   interpolationTypes = [
+    'Bundle',
+    'Cardinal',
+    'Catmull Rom',
+    'Linear',
+    'Monotone X',
+    'Monotone Y',
+    'Natural',
+    'Step',
+    'Step After',
+    'Step Before'
+];
 
 
   constructor(){
@@ -153,8 +173,7 @@ setInterpolationType(curveType) {
   }
 
    // options
-   showLegend = true;
-   orientation = 'LR'; // LR, RL, TB, BT
+  
    orientations: any[] = [
        {
            label: 'Left to Right',
@@ -174,26 +193,9 @@ setInterpolationType(curveType) {
        }
    ];
 
-   // line interpolation
-   curveType = 'Linear';
-   interpolationTypes = [
-       'Bundle',
-       'Cardinal',
-       'Catmull Rom',
-       'Linear',
-       'Monotone X',
-       'Monotone Y',
-       'Natural',
-       'Step',
-       'Step After',
-       'Step Before'
-   ];
+  
 
-   colorSchemes: any;
-   colorScheme: any;
-   schemeType = 'ordinal';
-   selectedColorScheme: string;
-
+  
    onLegendLabelClick(entry) {
     console.log('Legend clicked', entry);
 }
