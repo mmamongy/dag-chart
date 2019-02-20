@@ -1,8 +1,11 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ViewEncapsulation} from '@angular/core';
 import * as shape from 'd3-shape';
+import { NgxGraphModule } from '@swimlane/ngx-graph';
+import { colorSets } from './../../color-sets';
 
 @Component({
   selector: 'app-ngx-graph',
+  encapsulation: ViewEncapsulation.None,
   templateUrl: './ngx-graph.component.html',
   styleUrls: ['./ngx-graph.component.scss']
 })
@@ -12,7 +15,7 @@ export class NgxGraphComponent implements OnInit {
   view : any[];
   width: number = 1000; 
   height: number = 600 ;
-  fitContainer = true;
+  fitContainer = false;
   autoZoom = true;
   panOnZoom = true;
   enableZoom = true;
@@ -21,8 +24,66 @@ export class NgxGraphComponent implements OnInit {
   curve = shape.curveBundle.beta(1);
   // curve = shape.curveLinear;
 
+
+  constructor(){
+    Object.assign(this, {
+      colorSchemes: colorSets,
+  });
+
+  this.setColorScheme('picnic');
+  this.setInterpolationType('Bundle');
+  }
+
+  select(data) {
+    console.log('Item clicked', data);
+}
+
+setColorScheme(name) {
+    this.selectedColorScheme = name;
+    this.colorScheme = this.colorSchemes.find(s => s.name === name);
+}
+
+setInterpolationType(curveType) {
+    this.curveType = curveType;
+    if (curveType === 'Bundle') {
+        this.curve = shape.curveBundle.beta(1);
+    }
+    if (curveType === 'Cardinal') {
+        this.curve = shape.curveCardinal;
+    }
+    if (curveType === 'Catmull Rom') {
+        this.curve = shape.curveCatmullRom;
+    }
+    if (curveType === 'Linear') {
+        this.curve = shape.curveLinear;
+    }
+    if (curveType === 'Monotone X') {
+        this.curve = shape.curveMonotoneX;
+    }
+    if (curveType === 'Monotone Y') {
+        this.curve = shape.curveMonotoneY;
+    }
+    if (curveType === 'Natural') {
+        this.curve = shape.curveNatural;
+    }
+    if (curveType === 'Step') {
+        this.curve = shape.curveStep;
+    }
+    if (curveType === 'Step After') {
+        this.curve = shape.curveStepAfter;
+    }
+    if (curveType === 'Step Before') {
+        this.curve = shape.curveStepBefore;
+    }
+}
+
+
   public ngOnInit():void {
     this.showGraph();
+    
+    if (!this.fitContainer) {
+      this.applyDimensions();
+  }
   }
 
   
@@ -90,5 +151,69 @@ export class NgxGraphComponent implements OnInit {
   ];
 
   }
+
+   // options
+   showLegend = true;
+   orientation = 'LR'; // LR, RL, TB, BT
+   orientations: any[] = [
+       {
+           label: 'Left to Right',
+           value: 'LR'
+       },
+       {
+           label: 'Right to Left',
+           value: 'RL'
+       },
+       {
+           label: 'Top to Bottom',
+           value: 'TB'
+       },
+       {
+           label: 'Bottom to Top',
+           value: 'BT'
+       }
+   ];
+
+   // line interpolation
+   curveType = 'Linear';
+   interpolationTypes = [
+       'Bundle',
+       'Cardinal',
+       'Catmull Rom',
+       'Linear',
+       'Monotone X',
+       'Monotone Y',
+       'Natural',
+       'Step',
+       'Step After',
+       'Step Before'
+   ];
+
+   colorSchemes: any;
+   colorScheme: any;
+   schemeType = 'ordinal';
+   selectedColorScheme: string;
+
+   onLegendLabelClick(entry) {
+    console.log('Legend clicked', entry);
+}
+
+toggleExpand(node) {
+    console.log('toggle expand', node);
+}
+
+updateChart() {
+    // this.update$.next(true);
+}
+
+zoomToFit() {
+    // this.zoomToFit$.next(true);
+}
+
+center() {
+    // this.center$.next(true);
+}
+
+  
 
 }
